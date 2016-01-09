@@ -24,12 +24,14 @@ compile-time:
   val counts = text
     .flatMap { _.toLowerCase.split("\\W+") }
     .map(Data(_, 1))
-    .groupByField("words")
+    .groupByField('words)
     .sum(1)
 
 // [error] Could not find the field String("words") in Data
 // [error]       .groupByField("words")
 ```
+
+Strings or Symbols can be used as the argument to `groupByField`.
 
 ## Docs
 https://ci.apache.org/projects/flink/flink-docs-master/api/scala/index.html

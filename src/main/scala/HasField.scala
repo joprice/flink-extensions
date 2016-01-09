@@ -12,8 +12,7 @@ trait HasField[T, U]
 
 object HasField{
   implicit def mkHasField[T <: Product, L <: HList, F](
-    implicit lgen: LabelledGeneric.Aux[T, L],
-    s: Selector[L, Symbol @@ F]
+    implicit lgen: LabelledGeneric.Aux[T, L], s: Selector[L, F]
   ): HasField[T, F] = {
     // casting null to avoid pointless allocation
     null.asInstanceOf[HasField[T, F]]
