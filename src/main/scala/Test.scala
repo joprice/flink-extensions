@@ -4,6 +4,8 @@ import com.joprice.flink.FlinkExtensions._
 
 case class Data(word: String, count: Int)
 
+case class Data2(a: String, b: String, count: Int)
+
 object Main {
 
   def main(args: Array[String]): Unit = {
@@ -17,19 +19,27 @@ object Main {
 
     val countsByString = text
       .flatMap { _.toLowerCase.split("\\W+") }
-      .map(Data(_, 1))
-      .groupByField("word")
+      .map(x => Data2(x, x, 1))
+      .groupByField("a", "b")
+      .sumField('count)
 
-    // emit result
-    countsByString.sum(1).print()
+    println("string keys")
+    countsByString.print()
 
-    val countsBySymbol = text
+    val countsByStringSingle = text
       .flatMap { _.toLowerCase.split("\\W+") }
-      .map(Data(_, 1))
-      .groupByField('word)
+      .map(x => Data2(x, x, 1))
+      .groupByField('a)
+      .sumField("count")
 
-    // emit result
-    countsBySymbol.sum(1).print()
+    println("single")
+    countsByStringSingle.print()
+
+    val countsByString2 = text
+      .flatMap { _.toLowerCase.split("\\W+") }
+      .map(x => Data2(x, x, 1))
+      .groupByField('a, 'b)
+
   }
 
 }
